@@ -1,0 +1,3 @@
+#TG
+botToken = '6263113329:AAFMoKgXf25VSMmb2e5HHlxytAPI10e1S54'
+admin_list = [123,1983853146,321]
