@@ -1,29 +1,21 @@
 import sqlite3
-
-
+    
 def sql_start():
     try:
         global connection,cursor
-        connection = sqlite3.connect('users.db')
+        connection = sqlite3.connect('autopay.db')
         cursor = connection.cursor()
         print('[INFO] Data base connected!')
-        cursor.execute('''CREATE TABLE IF NOT EXISTS sellers(
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users(
         id integer PRIMARY KEY AUTOINCREMENT,
         id_tg text,
         login_tg text,
-        country text)
+        sub_active bool,
+        date_pay text,
+        date_end text
+        )
         ''')
         
-        connection.commit()
-
-        cursor.execute('''CREATE TABLE IF NOT EXISTS shops(
-        id integer PRIMARY KEY AUTOINCREMENT,
-        seller_id integer,
-        ozon_client_id text,
-        ozon_api_key text,
-        FOREIGN KEY (seller_id)  REFERENCES sellers (id))
-        ''')
-
         connection.commit()
     except Exception as ex:
         print('[INFO] Error while working with SQLite: ', ex)
@@ -32,7 +24,7 @@ def sql_start():
         if connection:
             print('[INFO] Data base closed! OK')
             return True
-
+  
 #Заполнение бд           
 # def addInfoSellers(personId,username,country):
 #     cursor.execute(f'SELECT id_tg FROM users WHERE id_tg = {personId};')
