@@ -7,14 +7,7 @@ router = Router()
 
 
 @router.callback_query(F.data == 'sub_channel_free')
-async def pagination_handler(call: CallbackQuery):
-    if await check_sub_channel(call.from_user.id):
-        await call.answer("Сначала нужно подписаться на канал",reply_markup=links_sub)    
-    else:
-        await start(call.message)
-
-@router.callback_query(F.data == 'sub_channel_free')
-async def pagination_handler(call: CallbackQuery):
+async def check_sub_to_free_channel(call: CallbackQuery):
     if await check_sub_channel(call.from_user.id):
         await call.answer("Сначала нужно подписаться на канал",reply_markup=links_sub)    
     else:

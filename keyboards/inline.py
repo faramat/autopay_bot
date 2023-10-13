@@ -21,13 +21,13 @@ links_sub = InlineKeyboardMarkup(
 buy_sub = InlineKeyboardMarkup(
     inline_keyboard = [
         [
-            InlineKeyboardButton(text="1 неделя - 300 р",callback_data='sub_channel_free')
+            InlineKeyboardButton(text="1 неделя - 300 р")
         ],
         [
-            InlineKeyboardButton(text="2 недели - 600 р",callback_data='sub_channel_free')
+            InlineKeyboardButton(text="2 недели - 600 р")
         ],
         [
-            InlineKeyboardButton(text="3 недели - 900 р",callback_data='sub_channel_free')
+            InlineKeyboardButton(text="3 недели - 900 р")
         ]
     ]
 )

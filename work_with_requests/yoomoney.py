@@ -14,7 +14,7 @@ params = {
     'paymentType':'AC',
     'sum':'10',
     'label':'1234560',
-    'successURL':'https://google,com/'
+    'successURL':'https://google.com/'
 }
 response = requests.post(url,headers=headerds,params=params)
 print(response.url)

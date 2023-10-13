@@ -43,26 +43,32 @@ async def start(message: Message):
 
 @router.message(F.text == 'Профиль')
 async def profile(message: Message):
-            if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
-                await message.answer(f'''
+            if await check_sub_channel(message.from_user.id):
+                await message.answer("Сначала нужно подписаться на канал",reply_markup=inline.links_sub)
+            else:
+                if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
+                    await message.answer(f'''
 Подписка : активна
 Закончится через:
 ----                                  
                 ''',reply_markup=inline.join_private_channel)
-            else: #платной подписки нет
-                await message.answer("Привет! Чтобы получить эксклюзивный и сочный контент, приобретите подписку.",reply_markup=inline.buy_sub)
+                else: #платной подписки нет
+                    await message.answer("Привет! Чтобы получить эксклюзивный и сочный контент, приобретите подписку.",reply_markup=inline.buy_sub)
 
 @router.message(F.text == 'Купить подписку')
 async def buy_subcription(message: Message):
-            if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
-                await message.answer(f'''
+            if await check_sub_channel(message.from_user.id):
+                await message.answer("Сначала нужно подписаться на канал",reply_markup=inline.links_sub)
+            else:
+                if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
+                    await message.answer(f'''
 Подписка : активна
 Закончится через:
 ----                                  
                 ''',reply_markup=inline.join_private_channel)
-            else: #платной подписки нет
-                await message.answer("Чтобы купить подписку на приватный канал, выбери срок подписки",reply_markup=inline.buy_sub)
-
+                else: #платной подписки нет
+                    await message.answer("Чтобы купить подписку на приватный канал, выбери срок подписки",reply_markup=inline.buy_sub)
+        
 
 
 
