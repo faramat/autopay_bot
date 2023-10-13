@@ -13,7 +13,7 @@ params = {
     'quickpay-form':'button',
     'paymentType':'AC',
     'sum':'10',
-    'label':'1234560',
+    'label':'fdgrg42dsfcv4442',
     'successURL':'https://google.com/'
 }
 response = requests.post(url,headers=headerds,params=params)
