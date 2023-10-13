@@ -31,6 +31,7 @@ async def approve_chat_join(update: ChatJoinRequest):
 # команда /start
 @router.message(CommandStart())
 async def start(message: Message):
+    await message.answer("Start command")
     # await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
     if (not db.user_exists_start(message.from_user.id)): #Регистрация пользователя 
         db.user_start(message.from_user.id,f"@{message.from_user.username}")
