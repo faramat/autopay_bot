@@ -3,19 +3,12 @@ import requests,json
 
 
 
-url = 'https://f15f-2a03-d000-8504-5a02-8488-c01b-96dd-f24b.ngrok-free.app'
-client_id = '3F2B042CED54A545F1B23A7C9FABB9ACCB373F97D6BD7C7BC94F353EF581CCE9'
-headerds = {
-
-}
+url = 'https://yoomoney.ru/api/oauth/authorize'
 params = {
-    'receiver':'4100116677873032',
-    'quickpay-form':'button',
-    'paymentType':'AC',
-    'sum':'3',
-    'label':'fdgrg42dsfcv4442',
-    'successURL':'https://google.com/'
+    'client_id':'C8D02963670FD08F1F4CDEF48C8EAD305ACADBE848E63F6E58F5A709205B410A',
+    'response_type':'code',
+    'redirect_uri':'https://google.com',
+    'scope':'account-info operation-history operation-details'
 }
-response = requests.get(url)
+response = requests.post(url,params=params)
 print(response.url)
-

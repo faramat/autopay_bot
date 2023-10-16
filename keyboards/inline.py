@@ -3,7 +3,7 @@ from aiogram.types import (
     InlineKeyboardButton,
     ReplyKeyboardRemove
 )
-from config import Tokens
+from config import Tokens,Price
 
 remove_kb = ReplyKeyboardRemove()
 
@@ -21,13 +21,13 @@ links_sub = InlineKeyboardMarkup(
 buy_sub = InlineKeyboardMarkup(
     inline_keyboard = [
         [
-            InlineKeyboardButton(text="1 неделя - 300 р")
+            InlineKeyboardButton(text=f"1 неделя - {Price.one} р",callback_data='one')
         ],
         [
-            InlineKeyboardButton(text="2 недели - 600 р")
+            InlineKeyboardButton(text=f"2 недели - {Price.two} р",callback_data='two')
         ],
         [
-            InlineKeyboardButton(text="3 недели - 900 р")
+            InlineKeyboardButton(text=f"3 недели - {Price.three} р",callback_data='three')
         ]
     ]
 )
@@ -38,3 +38,5 @@ join_private_channel = InlineKeyboardMarkup(
         ]
     ]
 )
+
+
