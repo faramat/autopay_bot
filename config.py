@@ -1,3 +1,9 @@
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+scheduler = AsyncIOScheduler(timezone="Europe/Moscow")  # Образ шедулера
+start_status = True  # Оповещение админам о запуске бота (True или False)
+
+
 class Tokens():
     bot_token = '6198074177:AAElHxTlJkKiFAXNRIkHoL0pumapRXSwubA'
     bot_url = 'https://t.me/sdfokosdofk_bot'
