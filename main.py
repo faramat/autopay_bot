@@ -5,8 +5,6 @@ from config import Tokens
 from data import db_start as db
 from callbacks import sub_channels,payments
 
-from aiogram.utils.web_app import safe_parse_webapp_init_data
-from aiohttp.web_request import Request
 
 bot = Bot(Tokens.bot_token,parse_mode="HTML")
 

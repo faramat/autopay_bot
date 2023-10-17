@@ -7,9 +7,11 @@ from keyboards import builders,inline
 from config import Price,RuKassa
 from main import bot
 import requests,time
-
+import datetime
+from data import *
 
 router = Router()
+db_check_active_pay = db_user_payment.DatabaseUserPay('autopay.db')
 
 
 async def check_order(id):
@@ -34,8 +36,13 @@ async def check_sub_to_free_channel(call: CallbackQuery):
     await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
     if await check_order(id):
+        today = datetime.datetime.now()
+        date_pay = (int(today.timestamp()))
+        delta = datetime.timedelta(days=7)
+        date_end = today + delta
+        date_end = int(date_end.timestamp())
+        db_check_active_pay.activate_sub(call.from_user.id,date_pay,date_end)
         await call.message.answer("Подписка активирована",reply_markup=inline.join_private_channel)
-        # Реализовать запрос в бд с обновлением и датой подписки 
     else:
         await call.message.answer("Ссылка на оплату не активна, создайте новую")
 
