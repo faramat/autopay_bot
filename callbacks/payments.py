@@ -30,9 +30,9 @@ async def check_order(id):
             time.sleep(30)
     return False        
 
-@router.callback_query(F.data == 'one')
+@router.callback_query(F.data == 'week')
 async def check_sub_to_free_channel(call: CallbackQuery):
-    kb , id = builders.create_kb_payment(Price.one)
+    kb , id = builders.create_kb_payment(Price.week)
     await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
     if await check_order(id):
@@ -46,3 +46,34 @@ async def check_sub_to_free_channel(call: CallbackQuery):
     else:
         await call.message.answer("Ссылка на оплату не активна, создайте новую")
 
+@router.callback_query(F.data == 'month')
+async def check_sub_to_free_channel(call: CallbackQuery):
+    kb , id = builders.create_kb_payment(Price.month)
+    await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
+    await call.message.edit_reply_markup(reply_markup=kb)
+    if await check_order(id):
+        today = datetime.datetime.now()
+        date_pay = (int(today.timestamp()))
+        delta = datetime.timedelta(days=31)
+        date_end = today + delta
+        date_end = int(date_end.timestamp())
+        db_check_active_pay.activate_sub(call.from_user.id,date_pay,date_end)
+        await call.message.answer("Подписка активирована",reply_markup=inline.join_private_channel)
+    else:
+        await call.message.answer("Ссылка на оплату не активна, создайте новую")
+
+@router.callback_query(F.data == 'threeMonth')
+async def check_sub_to_free_channel(call: CallbackQuery):
+    kb , id = builders.create_kb_payment(Price.threeMonth)
+    await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
+    await call.message.edit_reply_markup(reply_markup=kb)
+    if await check_order(id):
+        today = datetime.datetime.now()
+        date_pay = (int(today.timestamp()))
+        delta = datetime.timedelta(days=90)
+        date_end = today + delta
+        date_end = int(date_end.timestamp())
+        db_check_active_pay.activate_sub(call.from_user.id,date_pay,date_end)
+        await call.message.answer("Подписка активирована",reply_markup=inline.join_private_channel)
+    else:
+        await call.message.answer("Ссылка на оплату не активна, создайте новую")

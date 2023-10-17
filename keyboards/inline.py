@@ -21,13 +21,13 @@ links_sub = InlineKeyboardMarkup(
 buy_sub = InlineKeyboardMarkup(
     inline_keyboard = [
         [
-            InlineKeyboardButton(text=f"1 неделя - {Price.one} р",callback_data='one')
+            InlineKeyboardButton(text=f"1 неделя - {Price.week} р",callback_data='week')
         ],
         [
-            InlineKeyboardButton(text=f"2 недели - {Price.two} р",callback_data='two')
+            InlineKeyboardButton(text=f"2 недели - {Price.month} р",callback_data='month')
         ],
         [
-            InlineKeyboardButton(text=f"3 недели - {Price.three} р",callback_data='three')
+            InlineKeyboardButton(text=f"3 недели - {Price.threeMonth} р",callback_data='threeMonth')
         ]
     ]
 )
