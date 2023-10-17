@@ -3,8 +3,8 @@ from aiogram.types import CallbackQuery
 from keyboards import fabrics
 from handlers.user_commands import check_sub_channel,start
 from keyboards.inline import links_sub
-from keyboards import builders
-from config import Price,YooMoney
+from keyboards import builders,inline
+from config import Price,RuKassa
 from main import bot
 import requests,time
 
@@ -12,29 +12,30 @@ import requests,time
 router = Router()
 
 
-async def check_order(label):
-    print(label)
-    time.sleep(60)
-    url = YooMoney.payment_url + "operation-history/"
+async def check_order(id):
+    time.sleep(30)
+    url = RuKassa.check_order_url
     params = {
-        'type':'deposition',
-        'label':f'{label}'
+    'id':f'{id}',
+    'shop_id':f'{RuKassa.shop_id}',
+    'token':f'{RuKassa.token}',
     }
-    response = requests.post(url,params=params)
-    response = response.json()
-    print(response)
-    return True
-
+    for i in range(20):    
+        response = (requests.post(url,params=params)).json() 
+        if response['status'] == "PAID":
+            return True
+        else:
+            time.sleep(30)
+    return False        
 
 @router.callback_query(F.data == 'one')
 async def check_sub_to_free_channel(call: CallbackQuery):
-    kb , label = builders.create_kb_payment(Price.one)
-    await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 15 минут")
+    kb , id = builders.create_kb_payment(Price.one)
+    await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
-    print(type(label))
-    await call.message.answer(text=str(label))
-    if await check_order(label):
-        await call.message.answer("Подписка активирована")
+    if await check_order(id):
+        await call.message.answer("Подписка активирована",reply_markup=inline.join_private_channel)
+        # Реализовать запрос в бд с обновлением и датой подписки 
     else:
         await call.message.answer("Ссылка на оплату не активна, создайте новую")
 

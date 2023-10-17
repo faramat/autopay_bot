@@ -1,14 +1,22 @@
 import requests,json
 
 
+id = '3354285'
+shop_id = '1412'
 
-
-url = 'https://yoomoney.ru/api/oauth/authorize'
+url = 'https://lk.rukassa.is/api/v1/create/'
+urlt = 'https://lk.rukassa.is/api/v1/getPayInfo/'
 params = {
-    'client_id':'C8D02963670FD08F1F4CDEF48C8EAD305ACADBE848E63F6E58F5A709205B410A',
-    'response_type':'code',
-    'redirect_uri':'https://google.com',
-    'scope':'account-info operation-history operation-details'
+    'shop_id':'1412',
+    'order_id':'10000000000',
+    'amount':'100',
+    'token':'20b2eabfc91dc99ae0fdb61abf92d85f'
 }
-response = requests.post(url,params=params)
-print(response.url)
+paramst = {
+    'id':'3354285',
+    'shop_id':'1412',
+    'token':'20b2eabfc91dc99ae0fdb61abf92d85f',
+}
+response = requests.post(urlt,params=paramst)
+print(response.json())
+
