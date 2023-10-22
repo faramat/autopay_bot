@@ -15,7 +15,7 @@ bot = Bot(Tokens.bot_token,parse_mode="HTML")
 @router.message(F.text == 'Обновить прайс')
 async def update_price(message: Message,state = FSMContext):
     if str(message.from_user.id) == Tokens.admin_id:
-        price = (await db.getPrice())
+        price = (db.getPrice())
         await message.answer(f'''
 Текущий прайс:
 1 неделя - {price[0]}
@@ -27,7 +27,7 @@ async def update_price(message: Message,state = FSMContext):
 
 
 @router.message(Form.first_sum)
-async def update_price(message: Message,state = FSMContext):
+async def update_price_first_sum(message: Message,state = FSMContext):
     if str(message.from_user.id) == Tokens.admin_id:
         await state.update_data(first_sum=message.text)
         await state.set_state(Form.second_sum)
@@ -35,21 +35,21 @@ async def update_price(message: Message,state = FSMContext):
 
 
 @router.message(Form.second_sum)
-async def update_price(message: Message,state = FSMContext):
+async def update_price_second_sum(message: Message,state = FSMContext):
     if str(message.from_user.id) == Tokens.admin_id:
         await state.update_data(second_sum=message.text)
         await state.set_state(Form.third_sum)
         await message.answer("Введите цену за 3 месяца подписки (пример: 600)")
 
 @router.message(Form.third_sum)
-async def update_price(message: Message,state = FSMContext):
+async def update_price_third_sum(message: Message,state = FSMContext):
     if str(message.from_user.id) == Tokens.admin_id:
         await state.update_data(third_sum=message.text)
         data = await state.get_data()
         await state.clear()
         await db.updatePrice(data)
 
-        price = (await db.getPrice())
+        price = (db.getPrice())
         await message.answer(f'''
         Текущий прайс:
         1 неделя - {price[0]}

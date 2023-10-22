@@ -8,8 +8,8 @@ from data import db_admin
 
 remove_kb = ReplyKeyboardRemove()
 db = db_admin.DatabaseAdmin('autopay.db')
-
 price = db.getPrice()
+
 links_sub = InlineKeyboardMarkup(
     inline_keyboard = [
         [

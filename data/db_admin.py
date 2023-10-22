@@ -5,7 +5,7 @@ class DatabaseAdmin:
     def __init__(self,db_file):
        self.connection = sq.connect(db_file)
        self.cursor = self.connection.cursor()
-    async def getPrice(self):
+    def getPrice(self):
         try:
             with self.connection:
                 response = self.cursor.execute('''
