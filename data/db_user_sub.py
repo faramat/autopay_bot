@@ -21,7 +21,7 @@ class DatabaseUserSub:
         except Exception as ex:
             return False
     async def check_date_end(self,bot:Bot):
-        try:
+        try: #если время подписки вышло у саб 1, поменять статус и кикнуть юзера
             with self.connection:
                 response = self.cursor.execute('''
                 SELECT * FROM users WHERE sub_active = 1
@@ -36,6 +36,26 @@ class DatabaseUserSub:
                         request = self.cursor.execute('''
                         UPDATE users SET sub_active = 0 WHERE id_tg = ?
                         ''',(response[i][1],))
+                        await bot.ban_chat_member(
+                            chat_id=f'{Tokens.private_channel_id}',
+                            user_id=f'{response[i][1]}',
+                            until_date=datetime.timedelta(seconds=31))
+                        
+            with self.connection: #если время подписки вышло у саб 0, поменять статус и кикнуть юзера
+                response = self.cursor.execute('''
+                SELECT * FROM users WHERE sub_active = 0
+                ''').fetchall()
+                for i in range(len(response)):
+                    today = datetime.datetime.now()
+                    today = (int(today.timestamp()))
+                    date_end = self.cursor.execute('''
+                    SELECT date_end FROM users WHERE id_tg = ?
+                    ''',(response[i][1],)).fetchone()
+                    if int(date_end[0]) - today > 0:
+                        request = self.cursor.execute('''
+                        UPDATE users SET sub_active = 1 WHERE id_tg = ?
+                        ''',(response[i][1],))
+                    else:
                         await bot.ban_chat_member(
                             chat_id=f'{Tokens.private_channel_id}',
                             user_id=f'{response[i][1]}',

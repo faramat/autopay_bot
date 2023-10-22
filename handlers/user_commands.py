@@ -32,7 +32,6 @@ async def approve_chat_join(update: ChatJoinRequest):
 # команда /start
 @router.message(CommandStart())
 async def start(message: Message):
-    # await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
     if (not await db.user_exists_start(message.from_user.id)): #Регистрация пользователя 
         db.user_start(message.from_user.id,f"@{message.from_user.username}")
         await start(message)
@@ -41,6 +40,9 @@ async def start(message: Message):
             await message.answer("Сначала нужно подписаться на канал",reply_markup=inline.links_sub)       
         else:
             await message.answer('Воспользуйтесь навигацией:',reply_markup=reply.main)
+
+    if str(message.from_user.id) == Tokens.admin_id:
+        await message.answer("Админ панель",reply_markup=reply.admin_kb)
 
 @router.message(F.text == 'Профиль')
 async def profile(message: Message):

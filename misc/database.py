@@ -13,5 +13,4 @@ async def startup_notify(bot: Bot):
 
 # Проверка времени для обновления статуса подписки 
 async def check_subscription(bot: Bot):     
-        await bot.send_message(chat_id=Tokens.admin_id, text="<b>✅ Запущена проверка времени подписки</b>")   
         await db_check_date_end.check_date_end(bot)

@@ -15,7 +15,22 @@ def sql_start():
         date_end text
         )
         ''')
-        
+        cursor.execute('''CREATE TABLE IF NOT EXISTS price(
+        id integer PRIMARY KEY AUTOINCREMENT,
+        first_sum text,
+        second_sum text,
+        third_sum text
+        )
+        ''')
+        response = cursor.execute('''
+        SELECT * FROM price
+        ''').fetchall()
+        if response:
+            pass
+        else:
+            cursor.execute('''
+            INSERT INTO price(first_sum,second_sum,third_sum) VALUES(?,?,?)
+            ''',('0','0','0'))
         connection.commit()
     except Exception as ex:
         print('[INFO] Error while working with SQLite: ', ex)
@@ -24,12 +39,3 @@ def sql_start():
         if connection:
             print('[INFO] Data base closed! OK')
             return True
-  
-#Заполнение бд           
-# def addInfoSellers(personId,username,country):
-#     cursor.execute(f'SELECT id_tg FROM users WHERE id_tg = {personId};')
-#     if cursor.fetchone() is None:
-#         cursor.execute(f'INSERT INTO users(id_tg,login_tg,country) VALUES(?,?,?);',(personId,username,country))
-#         connection.commit()
-#     else:
-#         connection.commit()
