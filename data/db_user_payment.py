@@ -5,7 +5,7 @@ class DatabaseUserPay:
     def __init__(self,db_file):
        self.connection = sq.connect(db_file)
        self.cursor = self.connection.cursor()
-    def activate_sub(self,id_tg,date_pay,date_end):
+    async def activate_sub(self,id_tg,date_pay,date_end):
         try:
             with self.connection:
                 self.cursor.execute('''

@@ -24,7 +24,7 @@ async def approve_chat_join(update: ChatJoinRequest):
         await update.approve()
         await bot.send_message(Tokens.admin_id,f'@{update.from_user.username} подписался в бесплатный канал')
     else: # если в платный
-        if db_check_active_sub.check_sub(update.from_user.id):
+        if await db_check_active_sub.check_sub(update.from_user.id):
             await update.approve()
             await bot.send_message(Tokens.admin_id,f'@{update.from_user.username} подписался в платный канал')
         else:
@@ -33,7 +33,7 @@ async def approve_chat_join(update: ChatJoinRequest):
 @router.message(CommandStart())
 async def start(message: Message):
     # await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
-    if (not db.user_exists_start(message.from_user.id)): #Регистрация пользователя 
+    if (not await db.user_exists_start(message.from_user.id)): #Регистрация пользователя 
         db.user_start(message.from_user.id,f"@{message.from_user.username}")
         await start(message)
     else: # Пользователь зарегистрирован
@@ -47,7 +47,7 @@ async def profile(message: Message):
             if await check_sub_channel(message.from_user.id):
                 await message.answer("Сначала нужно подписаться на канал",reply_markup=inline.links_sub)
             else:
-                if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
+                if await db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
                     await message.answer(f'''
 Подписка : активна
 Закончится через:
@@ -61,7 +61,7 @@ async def buy_subcription(message: Message):
             if await check_sub_channel(message.from_user.id):
                 await message.answer("Сначала нужно подписаться на канал",reply_markup=inline.links_sub)
             else:
-                if db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
+                if await db_check_active_sub.check_sub(message.from_user.id): #платная подписка есть
                     await message.answer(f'''У вас уже есть подписка!''')
                     await profile(message)
                 else: #платной подписки нет

@@ -7,8 +7,8 @@ def sql_start():
         cursor = connection.cursor()
         print('[INFO] Data base connected!')
         cursor.execute('''
-        UPDATE users SET sub_active = 1 WHERE id_tg = 1833034859
-''')
+        UPDATE users SET sub_active = 1 WHERE id_tg = ?
+''',('1833034859',))
         connection.commit()
     except Exception as ex:
         print('[INFO] Error while working with SQLite: ', ex)
