@@ -1,10 +1,7 @@
 from aiogram import Router,F
 from aiogram.types import CallbackQuery
-from keyboards import fabrics
-from handlers.user_commands import check_sub_channel,start
-from keyboards.inline import links_sub
 from keyboards import builders,inline
-from config import Price,RuKassa
+from config import RuKassa
 from main import bot
 import requests,time
 import datetime
@@ -12,7 +9,7 @@ from data import *
 
 router = Router()
 db_check_active_pay = db_user_payment.DatabaseUserPay('autopay.db')
-
+db_getPrice = db_admin.DatabaseAdmin('autopay.db')
 
 async def check_order(id):
     time.sleep(30)
@@ -32,7 +29,7 @@ async def check_order(id):
 
 @router.callback_query(F.data == 'week')
 async def check_sub_to_free_channel(call: CallbackQuery):
-    kb , id = builders.create_kb_payment(Price.week)
+    kb , id = await builders.create_kb_payment((await db_getPrice.getPrice())[0])
     await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
     if await check_order(id):
@@ -48,7 +45,7 @@ async def check_sub_to_free_channel(call: CallbackQuery):
 
 @router.callback_query(F.data == 'month')
 async def check_sub_to_free_channel(call: CallbackQuery):
-    kb , id = builders.create_kb_payment(Price.month)
+    kb , id = await builders.create_kb_payment((await db_getPrice.getPrice())[1])
     await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
     if await check_order(id):
@@ -64,7 +61,7 @@ async def check_sub_to_free_channel(call: CallbackQuery):
 
 @router.callback_query(F.data == 'threeMonth')
 async def check_sub_to_free_channel(call: CallbackQuery):
-    kb , id = builders.create_kb_payment(Price.threeMonth)
+    kb , id = await builders.create_kb_payment((await db_getPrice.getPrice())[2])
     await call.message.edit_text(text="После оплаты средства зачислять автоматически, ссылка активна 10 минут")
     await call.message.edit_reply_markup(reply_markup=kb)
     if await check_order(id):

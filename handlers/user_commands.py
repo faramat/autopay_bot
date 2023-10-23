@@ -2,7 +2,7 @@ import random,asyncio,json
 from aiogram import Router, Bot,F
 from aiogram.types import Message,ChatJoinRequest
 from aiogram.filters import Command,CommandStart    
-from keyboards import reply,inline
+from keyboards import reply,inline,builders
 from data import *
 from config import Tokens
 
@@ -56,7 +56,7 @@ async def profile(message: Message):
 ----                                  
                 ''',reply_markup=inline.join_private_channel)
                 else: #платной подписки нет
-                    await message.answer("Привет! Чтобы получить эксклюзивный и сочный контент, приобретите подписку.",reply_markup=inline.buy_sub)
+                    await message.answer("Привет! Чтобы получить эксклюзивный и сочный контент, приобретите подписку.",reply_markup=await builders.create_price_kb())
 
 @router.message(F.text == 'Купить подписку')
 async def buy_subcription(message: Message):
@@ -67,7 +67,7 @@ async def buy_subcription(message: Message):
                     await message.answer(f'''У вас уже есть подписка!''')
                     await profile(message)
                 else: #платной подписки нет
-                    await message.answer("Чтобы купить подписку на приватный канал, выбери срок подписки",reply_markup=inline.buy_sub)
+                    await message.answer("Чтобы купить подписку на приватный канал, выбери срок подписки",reply_markup=await builders.create_price_kb())
          
 
 

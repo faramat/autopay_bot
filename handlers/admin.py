@@ -15,7 +15,7 @@ bot = Bot(Tokens.bot_token,parse_mode="HTML")
 @router.message(F.text == 'Обновить прайс')
 async def update_price(message: Message,state = FSMContext):
     if str(message.from_user.id) == Tokens.admin_id:
-        price = (db.getPrice())
+        price = (await db.getPrice())
         await message.answer(f'''
 Текущий прайс:
 1 неделя - {price[0]}
@@ -49,7 +49,7 @@ async def update_price_third_sum(message: Message,state = FSMContext):
         await state.clear()
         await db.updatePrice(data)
 
-        price = (db.getPrice())
+        price = (await db.getPrice())
         await message.answer(f'''
         Текущий прайс:
         1 неделя - {price[0]}

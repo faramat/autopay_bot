@@ -21,7 +21,3 @@ class RuKassa():
     shop_id= '1412'
     token = '20b2eabfc91dc99ae0fdb61abf92d85f'
 
-class Price():
-    week = 100
-    month = 200
-    threeMonth = 300

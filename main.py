@@ -5,7 +5,7 @@ from config import Tokens,scheduler
 from data import db_start as db
 from callbacks import sub_channels,payments
 from misc.database import startup_notify,check_subscription
-
+import logging
 
 async def scheduler_start(bot):
     scheduler.add_job(check_subscription, "interval", hours = 12, args=(bot,))  # Ежедневная проверка подписок
@@ -30,5 +30,6 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
+    logging.basicConfig(level=logging.DEBUG)
+
     
