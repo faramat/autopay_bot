@@ -26,5 +26,11 @@ class DatabaseAdmin:
                 ''',(data['first_sum'],data['second_sum'],data['third_sum'],))
         except Exception as ex:
             print(ex)
-                
+    async def get_users(self):
+        try:
+            with self.connection:
+                res = self.cursor.execute('''SELECT * FROM users''').fetchall()
+                return res
+        except Exception as ex:
+            print(ex)
     

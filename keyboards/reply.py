@@ -25,7 +25,8 @@ admin_kb = ReplyKeyboardMarkup(
     keyboard = [
         [
             KeyboardButton(text="Обновить прайс"),
-            KeyboardButton(text="Дб")
+            KeyboardButton(text="Дамп БД"),
+            KeyboardButton(text="Рассылка пользователям")
             
         ]
     ],

@@ -70,5 +70,3 @@ async def buy_subcription(message: Message):
                     await message.answer("Чтобы купить подписку на приватный канал, выбери срок подписки",reply_markup=await builders.create_price_kb())
          
 
-
-
