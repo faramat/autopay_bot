@@ -55,4 +55,4 @@ async def update_price_third_sum(message: Message,state = FSMContext):
         1 неделя - {price[0]}
         1 месяц - {price[1]}
         3 месяца - {price[2]}
-        ''')
+        ''',reply_markup=reply.admin_kb)

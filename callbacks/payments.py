@@ -3,8 +3,7 @@ from aiogram.types import CallbackQuery
 from keyboards import builders,inline
 from config import RuKassa
 from main import bot
-import requests,time
-import datetime
+import requests,datetime,asyncio
 from data import *
 
 router = Router()
@@ -12,7 +11,7 @@ db_check_active_pay = db_user_payment.DatabaseUserPay('autopay.db')
 db_getPrice = db_admin.DatabaseAdmin('autopay.db')
 
 async def check_order(id):
-    time.sleep(30)
+    await asyncio.sleep(30)
     url = RuKassa.check_order_url
     params = {
     'id':f'{id}',
@@ -24,7 +23,7 @@ async def check_order(id):
         if response['status'] == "PAID":
             return True
         else:
-            time.sleep(30)
+            await asyncio.sleep(30)
     return False        
 
 @router.callback_query(F.data == 'week')
