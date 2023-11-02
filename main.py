@@ -10,7 +10,7 @@ from services.api_session import RequestSession
 
 async def scheduler_start(bot):
     scheduler.add_job(check_subscription, "interval", hours = 12, args=(bot,))  # Ежедневная проверка подписок
-    scheduler.add_job(autobackup_admin, "cron", hour = 00, args=(bot,))  # Ежедневная проверка подписок
+    scheduler.add_job(autobackup_admin, "cron", hour = 00, args=(bot,))  # Ежедневный автобекап
 bot = Bot(Tokens.bot_token,parse_mode="HTML")
 
 async def main():

@@ -33,7 +33,7 @@ async def approve_chat_join(update: ChatJoinRequest):
 @router.message(CommandStart())
 async def start(message: Message):
     if (not await db.user_exists_start(message.from_user.id)): #Регистрация пользователя 
-        db.user_start(message.from_user.id,f"@{message.from_user.username}")
+        await db.user_start(message.from_user.id,f"@{message.from_user.username}")
         await start(message)
     else: # Пользователь зарегистрирован
         if await check_sub_channel(message.from_user.id):
